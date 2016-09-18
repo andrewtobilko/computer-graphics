@@ -30,14 +30,4 @@ public class Runner {
                 new Thread(() -> ((Lab)context.getBean(resolveClassName(d.getBeanClassName(), null))).perform()).start());
     }
 
-    // too scruffy, but the lambda is clean enough ;)
-    private static Class<?> forName(String className) throws IllegalArgumentException {
-        try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException();
-        }
-    }
-
 }
