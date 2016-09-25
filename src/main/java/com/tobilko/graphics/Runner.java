@@ -7,6 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
+import static java.lang.ClassLoader.getSystemClassLoader;
 import static org.springframework.util.ClassUtils.resolveClassName;
 
 /**
@@ -27,7 +28,9 @@ public class Runner {
         scanner.addIncludeFilter(new AnnotationTypeFilter(CurrentLab.class));
 
         scanner.findCandidateComponents(packageForScanning).forEach(d ->
-                new Thread(() -> ((Lab)context.getBean(resolveClassName(d.getBeanClassName(), null))).perform()).start());
+                new Thread(() ->
+                        ((Lab) context.getBean(resolveClassName(d.getBeanClassName(), getSystemClassLoader()))).perform())
+                .start());
     }
 
 }
